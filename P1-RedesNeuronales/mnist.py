@@ -28,9 +28,9 @@ import numpy as np
 
 BATCH_SIZE = 128			# tamaño del batch
 N_CLASSES = 10				# número de clases
-EPOCHS = 12					# épocas
+EPOCHS = 2					# épocas
 IMG_ROWS, IMG_COLS = 28, 28	# Dimensiones de las imágenes
-SHOW_IMGS = False			# Indica si se quiere imprimir algunas imágenes
+SHOW_IMGS = True			# Indica si se quiere imprimir algunas imágenes
 SHOW_CONFUSSION = False		# Indica si se quiere imprimir algunas imágenes
 
 """ Uso la notación Snake Case la cual es habitual en Python """
@@ -43,14 +43,14 @@ def read_data(fashion=False):
 		(x_train, y_train), (x_test, y_test) = mnist.load_data()
 	return (x_train, y_train), (x_test, y_test)
 
-def show_data(x, set_init=0):
-	for i in range(9):	# sólo imprimo las primeras
-		plt.subplot(330 + 1 + i)
-		plt.imshow(x[i+set_init], cmap=plt.get_cmap('gray'))
-	# pintamos la imagen
-	plt.title("MNIST")
+def show_data(x, y, set_init=0):
+	fig = plt.figure(figsize=(15, 10))
+	for idx in np.arange(15):	# sólo imprimo 15
+	    ax = fig.add_subplot(3, 5, idx+1, xticks=[], yticks=[])
+	    ax.imshow(x[idx + set_init], cmap=plt.cm.binary)
+	    ax.set_title(str(y[idx + set_init]))
 	plt.gcf().canvas.set_window_title('IC - Práctica 1')
-	plt.show()
+	plt.show()	# pintamos la imagen
 
 def preprocess_data(x_train, y_train, x_test, y_test):
 	x_train = x_train.astype('float32')	# conversión a float32
@@ -195,7 +195,7 @@ def main():
 	summarize_dataset(x_train, y_train, x_test, y_test)
 	x_test_orig = x_test.copy()
 	if(SHOW_IMGS):
-		show_data(x_train)
+		show_data(x_train, y_train)
 
 	# Preprocesamiento
 	if K.image_data_format() == 'channels_first':
@@ -226,7 +226,7 @@ def main():
 
 	# Imprimiendo algunos datos
 	if(SHOW_IMGS):
-		show_data(x_test_orig)
+		show_data(x_test_orig, y_test)
 
 	# Predicciones
 	y_pred_categorical = model.predict(x_test)
@@ -238,6 +238,7 @@ def main():
 	if(SHOW_CONFUSSION):
 		show_confussion_matrix(y_test, y_pred, "sin normalizar", False)
 		show_confussion_matrix(y_test, y_pred, "normalizada")
+
 
 if __name__ == "__main__":
 	main()
