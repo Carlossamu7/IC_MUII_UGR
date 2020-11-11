@@ -21,38 +21,35 @@ from keras import backend as K
 from matplotlib import pyplot
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import plot_confusion_matrix
+from tabulate import tabulate
+import numpy as np
 
 """ Variables globales """
 
-batch_size = 128
-num_classes = 10
-epochs = 2
-
-# input image dimensions
-img_rows, img_cols = 28, 28
+batch_size = 128			# tamaño del batch
+num_classes = 10			# número de clases
+epochs = 1					# épocas
+img_rows, img_cols = 28, 28	# Dimensiones de las imágenes
 
 """ Uso la notación Snake Case la cual es habitual en Python """
 
 def read_data():
-	# the data, split between train and test sets
+	# divide los datos en train y test
 	(x_train, y_train), (x_test, y_test) = mnist.load_data()
 	return (x_train, y_train), (x_test, y_test)
 
 def show_data(x_train):
-	# plot first few images
-	for i in range(9):
-		# define subplot
+	for i in range(9):	# sólo imprimo las primeras
 		pyplot.subplot(330 + 1 + i)
-		# plot raw pixel data
 		pyplot.imshow(x_train[i], cmap=pyplot.get_cmap('gray'))
-	# show the figure
+	# pintamos la imagen
 	pyplot.show()
 
 def preprocess_data(x_train, y_train, x_test, y_test):
-	x_train = x_train.astype('float32')
-	x_test = x_test.astype('float32')
-	x_train /= 255
-	x_test /= 255
+	x_train = x_train.astype('float32')	# conversión a float32
+	x_test = x_test.astype('float32')	# conversión a float32
+	x_train /= 255						# normalización a [0,1]
+	x_test /= 255						# normalización a [0,1]
 
 def summarize_dataset(x_train, y_train, x_test, y_test):
 	print('Dimensión de x_train:', x_train.shape, 'y_train:', y_train.shape)
@@ -89,20 +86,25 @@ def evaluate(model, x_train, y_train, x_test, y_test):
 	return model.evaluate(x_train, y_train, verbose=0), model.evaluate(x_test, y_test, verbose=0)
 
 def print_score(score_train, score_test):
+	print("\n----------  RESULTADOS  ----------")
+	# Sobre el conjunto de entrenamiento
 	print('Train loss:', score_train[0])
 	print('Train accuracy:', score_train[1])
+	# Sobre el conjunto de test
 	print('Test loss:', score_test[0])
 	print('Test accuracy:', score_test[1])
-
+	print("")
+	table = [["Train", score_train[1], score_train[0]],["Test", score_test[1], score_test[0]]]
+	print(tabulate(table, headers=["Conjunto", "Accuracy", "Loss"], tablefmt='fancy_grid'))
+	print("")
 
 ########################
 #####     MAIN     #####
 ########################
 
-
 """ Programa principal. """
 def main():
-	print("\n###############################################")
+	print("\n#################################################")
 	print("###  PRÁCTICA 1 IC - Redes Neuronales: MNIST  ###")
 	print("#################################################\n")
 
@@ -122,21 +124,23 @@ def main():
 	    input_shape = (img_rows, img_cols, 1)
 
 	preprocess_data(x_train, y_train, x_test, y_test)
-	# convert class vectors to binary class matrices
-	y_train = keras.utils.to_categorical(y_train, num_classes)
-	y_test = keras.utils.to_categorical(y_test, num_classes)
+	# vector de etiquetas convertido a una matriz binaria
+	y_train_categorical = keras.utils.to_categorical(y_train, num_classes)
+	y_test_categorical = keras.utils.to_categorical(y_test, num_classes)
 
 	model = construc_model(input_shape)
-	train_model(model, x_train, y_train, x_test, y_test)
-	score_train, score_test = evaluate(model, x_train, y_train, x_test, y_test)
+	train_model(model, x_train, y_train_categorical, x_test, y_test_categorical)
+	score_train, score_test = evaluate(model, x_train, y_train_categorical, x_test, y_test_categorical)
 	print_score(score_train, score_test)
+	x_test *= 255
+	show_data(x_test.astype('uint8'))
 	y_pred = model.predict(x_test)
+	print(y_pred)
+	print(np.argmax(np.round(y_pred)))
+	y_pred = np.argmax(np.round(y_pred))
+
 	cm = confusion_matrix(y_test, y_pred)
 	print(cm)
-	plot_confusion_matrix(model, x_test, y_test,
-                                 cmap=plt.cm.Blues,
-                                 normalize=normalize)
-	pyplot.show()
 	plot_confusion_matrix(model, x_test, y_test,
                                  cmap=plt.cm.Blues)
 	pyplot.show()

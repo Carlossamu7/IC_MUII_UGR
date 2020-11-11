@@ -7,3 +7,7 @@ install:
 	pip3 install pydotplus
 	pip3 install graphviz
 	sudo apt-get install graphviz
+	pip3 install tabulate
+
+all:
+	python3 mnist.py
