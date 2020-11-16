@@ -85,31 +85,11 @@ def preprocess_data(x_train, x_test):
 """ Construcción del modelo. Devuelve el modelo.
 - input_shape: tamaño del input.
 """
-def construc_model_medio(input_shape):
+def construc_model1(input_shape):
 	model = Sequential()
 	model.add(Conv2D(32, kernel_size=(3, 3),
 	                 activation='relu',
 	                 input_shape=input_shape))
-	model.add(Flatten())
-	model.add(Dense(128, activation='relu'))
-	model.add(Dropout(0.5))
-	model.add(Dense(N_CLASSES, activation='softmax'))
-	model.compile(loss=keras.losses.categorical_crossentropy,
-	              optimizer=keras.optimizers.SGD(lr=0.01),
-	              metrics=['accuracy'])
-	return model
-
-""" Construcción del modelo. Devuelve el modelo.
-- input_shape: tamaño del input.
-"""
-def construc_model_vc(input_shape):
-	model = Sequential()
-	model.add(Conv2D(32, kernel_size=(3, 3),
-	                 activation='relu',
-	                 input_shape=input_shape))
-	model.add(Conv2D(64, (3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Dropout(0.25))
 	model.add(Flatten())
 	model.add(Dense(128, activation='relu'))
 	model.add(Dropout(0.5))
@@ -124,17 +104,19 @@ def construc_model_vc(input_shape):
 """
 def construc_model2(input_shape):
 	model = Sequential()
-	model.add(Conv2D(64, (3,3), input_shape=(28, 28, 1)))
-	model.add(Activation('relu'))
+	model.add(Conv2D(32, kernel_size=(3, 3),
+	                 activation='relu',
+	                 input_shape=input_shape))
 	model.add(MaxPooling2D(pool_size=(2,2)))
-	model.add(Conv2D(64, (3,3)))
-	model.add(Activation('relu'))
+	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2,2)))
 	model.add(Flatten())
 	model.add(Dense(64))
-	model.add(Dense(10))
-	model.add(Activation('softmax'))
-	model.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=['accuracy'])
+	model.add(Dropout(0.5))
+	model.add(Dense(N_CLASSES, activation='softmax'))
+	model.compile(loss=keras.losses.categorical_crossentropy,
+	              optimizer=keras.optimizers.SGD(lr=0.01),
+	              metrics=['accuracy'])
 	return model
 
 """ Construcción del modelo. Devuelve el modelo.
@@ -142,12 +124,57 @@ def construc_model2(input_shape):
 """
 def construc_model3(input_shape):
 	model = Sequential()
+	model.add(Conv2D(32, kernel_size=(3, 3),
+	                 activation='relu',
+	                 input_shape=input_shape))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Conv2D(64, (3, 3), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.25))
+	model.add(Flatten())
+	model.add(Dense(256, activation='relu'))
+	model.add(Dense(128, activation='relu'))
+	model.add(Dense(64, activation='relu'))
+	model.add(Dropout(0.5))
+	model.add(Dense(N_CLASSES, activation='softmax'))
+	model.compile(loss=keras.losses.categorical_crossentropy,
+	              optimizer=keras.optimizers.Adam(),
+	              metrics=['accuracy'])
+	return model
+
+""" Construcción del modelo. Devuelve el modelo.
+- input_shape: tamaño del input.
+"""
+def construc_model4(input_shape):
+	model = Sequential()
 	model.add(Conv2D(32, kernel_size=(5, 5),
 	                 activation='relu',
 	                 input_shape=input_shape))
-
 	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Conv2D(64, (3, 3), activation='relu'))
+	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.3))
+	model.add(Flatten())
+	model.add(Dense(256, activation='relu'))
+	model.add(Dense(128, activation='relu'))
+	model.add(Dense(64, activation='relu'))
+	model.add(Dropout(0.5))
+	model.add(Dense(N_CLASSES, activation='softmax'))
+	model.compile(loss=keras.losses.categorical_crossentropy,
+	              optimizer=keras.optimizers.Adam(),
+	              metrics=['accuracy'])
+	return model
+
+""" Construcción del modelo. Devuelve el modelo.
+- input_shape: tamaño del input.
+"""
+def construc_model(input_shape):
+	model = Sequential()
+	model.add(Conv2D(32, kernel_size=(5, 5),
+	                 activation='relu',
+	                 input_shape=input_shape))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Dropout(0.2))
 	model.add(Flatten())
@@ -164,7 +191,7 @@ def construc_model3(input_shape):
 """ Construcción del modelo. Devuelve el modelo.
 - input_shape: tamaño del input.
 """
-def construc_model3_LeakyReLu(input_shape):
+def construc_model_LeakyReLu(input_shape):
 	model = Sequential()
 
 	model.add(Conv2D(32, kernel_size=(5, 5),
@@ -188,52 +215,6 @@ def construc_model3_LeakyReLu(input_shape):
 	              metrics=['accuracy'])
 	return model
 
-""" Construcción del modelo. Devuelve el modelo.
-- input_shape: tamaño del input.
-"""
-def construc_model4(input_shape):
-	model = Sequential()
-	model.add(Conv2D(32, kernel_size=(3, 3),
-	                 activation='relu',
-	                 input_shape=input_shape))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Conv2D(64, (3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Dropout(0.25))
-	model.add(Flatten())
-	model.add(Dense(256, activation='relu'))
-	model.add(Dense(128, activation='relu'))
-	model.add(Dense(64, activation='relu'))
-	model.add(Dropout(0.5))
-	model.add(Dense(N_CLASSES, activation='softmax'))
-	model.compile(loss=keras.losses.categorical_crossentropy,
-	              optimizer=keras.optimizers.Adam(),
-	              metrics=['accuracy'])
-	return model
-
-""" Construcción del modelo. Devuelve el modelo.
-- input_shape: tamaño del input.
-"""
-def construc_model5(input_shape):
-	model = Sequential()
-	model.add(Conv2D(32, kernel_size=(5, 5),
-	                 activation='relu',
-	                 input_shape=input_shape))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Conv2D(64, (3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Dropout(0.3))
-	model.add(Flatten())
-	model.add(Dense(256, activation='relu'))
-	model.add(Dense(128, activation='relu'))
-	model.add(Dense(64, activation='relu'))
-	model.add(Dropout(0.5))
-	model.add(Dense(N_CLASSES, activation='softmax'))
-	model.compile(loss=keras.losses.categorical_crossentropy,
-	              optimizer=keras.optimizers.Adam(),
-	              metrics=['accuracy'])
-	return model
-
 """ Entrena el modelo. Devuelve el history.
 - model: modelo.
 - x_train: entrada del conjunto de entrenamiento.
@@ -245,8 +226,7 @@ def train_model(model, x_train, y_train, x_test, y_test):
 	return model.fit(x_train, y_train,
 	          batch_size=BATCH_SIZE,
 	          epochs=EPOCHS,
-	          verbose=1,
-	          validation_data=(x_test, y_test))
+	          verbose=1)
 
 """ Muestra la historia del entrenamiento (acc y loss).
 - history: historia.
