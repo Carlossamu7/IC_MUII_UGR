@@ -21,6 +21,7 @@ from keras import backend as K
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import plot_confusion_matrix
+from sklearn.model_selection import train_test_split
 from tabulate import tabulate
 import numpy as np
 
@@ -28,7 +29,7 @@ import numpy as np
 
 BATCH_SIZE = 128			# tamaño del batch
 N_CLASSES = 10				# número de clases
-EPOCHS = 12					# épocas
+EPOCHS = 15					# épocas
 IMG_ROWS, IMG_COLS = 28, 28	# Dimensiones de las imágenes
 SHOW_IMGS = False			# Indica si se quiere imprimir algunas imágenes
 SHOW_CONFUSSION = True		# Indica si se quiere imprimir algunas imágenes
@@ -223,9 +224,11 @@ def construc_model_LeakyReLu(input_shape):
 - y_test: etiquetas del conjunto de test.
 """
 def train_model(model, x_train, y_train, x_test, y_test):
+	x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.1, random_state=1)
 	return model.fit(x_train, y_train,
 	          batch_size=BATCH_SIZE,
 	          epochs=EPOCHS,
+			  validation_data = (x_val, y_val),
 	          verbose=1)
 
 """ Muestra la historia del entrenamiento (acc y loss).
@@ -347,7 +350,7 @@ def main():
 	y_test_categorical = keras.utils.to_categorical(y_test, N_CLASSES)
 
 	# Construcción del modelo e información de las capas
-	model = construc_model3(input_shape)
+	model = construc_model(input_shape)
 	model.summary()
 
 	# Entrenamiento del modelo
