@@ -4,10 +4,10 @@
 
 Repositorio para la asignatura **Inteligencia Computacional** del Máster en Ingeniería Informática de la Universidad de Granada.
 
-- Práctica 1: Redes neuronales - MNIST.
+- Práctica 1: [Redes neuronales - MNIST](https://github.com/Carlossamu7/IC_MUII_UGR/milestone/1).
     - Consultar código [aquí](https://github.com/Carlossamu7/IC_MUII_UGR/blob/main/P1-RedesNeuronales/mnist.py).
     - Consultar memoria.
-- Teoría: Aplicación de la lógica difusa a la identificación forense.
+- Teoría: [Aplicación de la lógica difusa a la identificación forense](https://github.com/Carlossamu7/IC_MUII_UGR/milestone/2).
 
 ## Licencia
 
