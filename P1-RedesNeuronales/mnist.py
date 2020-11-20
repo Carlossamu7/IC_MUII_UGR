@@ -31,7 +31,7 @@ BATCH_SIZE = 128			# tamaño del batch
 N_CLASSES = 10				# número de clases
 EPOCHS = 15					# épocas
 IMG_ROWS, IMG_COLS = 28, 28	# Dimensiones de las imágenes
-SHOW_IMGS = False			# Indica si se quiere imprimir algunas imágenes
+SHOW_IMGS = True			# Indica si se quiere imprimir algunas imágenes
 SHOW_CONFUSSION = True		# Indica si se quiere imprimir algunas imágenes
 
 """ Uso la notación Snake Case la cual es habitual en Python """
@@ -108,26 +108,6 @@ def construc_model2(input_shape):
 	model.add(Conv2D(32, kernel_size=(3, 3),
 	                 activation='relu',
 	                 input_shape=input_shape))
-	model.add(MaxPooling2D(pool_size=(2,2)))
-	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2,2)))
-	model.add(Flatten())
-	model.add(Dense(64))
-	model.add(Dropout(0.5))
-	model.add(Dense(N_CLASSES, activation='softmax'))
-	model.compile(loss=keras.losses.categorical_crossentropy,
-	              optimizer=keras.optimizers.SGD(lr=0.01),
-	              metrics=['accuracy'])
-	return model
-
-""" Construcción del modelo. Devuelve el modelo.
-- input_shape: tamaño del input.
-"""
-def construc_model3(input_shape):
-	model = Sequential()
-	model.add(Conv2D(32, kernel_size=(3, 3),
-	                 activation='relu',
-	                 input_shape=input_shape))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Conv2D(64, (3, 3), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -146,7 +126,7 @@ def construc_model3(input_shape):
 """ Construcción del modelo. Devuelve el modelo.
 - input_shape: tamaño del input.
 """
-def construc_model4(input_shape):
+def construc_model3(input_shape):
 	model = Sequential()
 	model.add(Conv2D(32, kernel_size=(5, 5),
 	                 activation='relu',
@@ -177,7 +157,7 @@ def construc_model(input_shape):
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Dropout(0.2))
+	model.add(Dropout(0.3))
 	model.add(Flatten())
 	model.add(Dense(512, activation='relu'))
 	model.add(Dense(128, activation='relu'))
