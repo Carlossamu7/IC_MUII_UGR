@@ -330,7 +330,7 @@ def main():
 	y_test_categorical = keras.utils.to_categorical(y_test, N_CLASSES)
 
 	# Construcción del modelo e información de las capas
-	model = construc_model_LeakyReLu(input_shape)
+	model = construc_model(input_shape)
 	model.summary()
 
 	# Entrenamiento del modelo
