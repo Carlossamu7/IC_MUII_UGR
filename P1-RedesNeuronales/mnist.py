@@ -183,7 +183,7 @@ def construc_model_LeakyReLu(input_shape):
 	model.add(Conv2D(64, (3, 3)))
 	model.add(LeakyReLU(alpha=0.2))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
-	model.add(Dropout(0.2))
+	model.add(Dropout(0.3))
 	model.add(Flatten())
 	model.add(Dense(512))
 	model.add(LeakyReLU(alpha=0.2))
@@ -330,7 +330,7 @@ def main():
 	y_test_categorical = keras.utils.to_categorical(y_test, N_CLASSES)
 
 	# Construcción del modelo e información de las capas
-	model = construc_model(input_shape)
+	model = construc_model_LeakyReLu(input_shape)
 	model.summary()
 
 	# Entrenamiento del modelo
