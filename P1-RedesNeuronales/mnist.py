@@ -24,6 +24,7 @@ from sklearn.metrics import plot_confusion_matrix
 from sklearn.model_selection import train_test_split
 from tabulate import tabulate
 import numpy as np
+from time import time
 
 """ Variables globales """
 
@@ -296,6 +297,15 @@ def show_confussion_matrix(y_real, y_pred, message="", norm=True):
 	plt.gcf().canvas.set_window_title("Práctica 3 - Clasificación")
 	plt.show()
 
+""" Escribe las predicciones en un archivo externo "preds.txt".
+- y_pred: etiquetas predichas.
+"""
+def write_predictions(y_pred):
+	f=open("preds.txt","w")	# w borra el contenido si lo hay
+	for i in y_pred:
+		f.write(str(i))
+	f.close()	# cerramos el fichero
+
 ########################
 #####     MAIN     #####
 ########################
@@ -334,7 +344,10 @@ def main():
 	model.summary()
 
 	# Entrenamiento del modelo
+	start_time = time()
 	history = train_model(model, x_train, y_train_categorical, x_test, y_test_categorical)
+	elapsed_time = time() - start_time
+	print("\nTiempo de entenamiento: {:.2f} s".format(elapsed_time))
 	show_history(history)
 
 	# Evaluación del modelo
@@ -349,6 +362,7 @@ def main():
 	y_pred_categorical = model.predict(x_test)
 	y_pred = inverse_categorical(y_pred_categorical)
 	print("Etiquetas predecidas: ", np.array(y_pred))
+	write_predictions(y_pred)
 
 	# Matriz de confusión
 	print(confusion_matrix(y_test, y_pred))
