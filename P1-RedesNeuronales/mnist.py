@@ -30,7 +30,7 @@ from time import time
 
 BATCH_SIZE = 128			# tamaño del batch
 N_CLASSES = 10				# número de clases
-EPOCHS = 15					# épocas
+EPOCHS = 12					# épocas
 IMG_ROWS, IMG_COLS = 28, 28	# Dimensiones de las imágenes
 SHOW_IMGS = True			# Indica si se quiere imprimir algunas imágenes
 SHOW_CONFUSSION = True		# Indica si se quiere imprimir algunas imágenes
