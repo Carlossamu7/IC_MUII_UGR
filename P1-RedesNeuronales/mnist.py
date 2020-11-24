@@ -162,8 +162,9 @@ def construc_model(input_shape):
 	model.add(Flatten())
 	model.add(Dense(512, activation='relu'))
 	model.add(Dense(128, activation='relu'))
+	model.add(Dropout(0.2))
 	model.add(Dense(50, activation='relu'))
-	model.add(Dropout(0.5))
+	model.add(Dropout(0.4))
 	model.add(Dense(N_CLASSES, activation='softmax'))
 	model.compile(loss=keras.losses.categorical_crossentropy,
 	              optimizer=keras.optimizers.Adam(),
